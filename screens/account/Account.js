@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { StyleSheet } from 'react-native'
-import { getCurrentUser, isUserLogged } from '../../utils/actions'
+import { getCurrentUser } from '../../utils/actions'
 import UserLogged from './UserLogged'
 import UserGuest from './UserGuest'
 import Loading from '../../components/Loading'
