@@ -15,12 +15,19 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.seniorpablo.restaurants"
     },
     "android": {
+      "package": "com.seniorpablo.restaurants",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCaK7VpPOz1EUl84YBRx0qBZRQhT-f2mDw"
+        }
       },
       "permissions": [
         "CAMERA_ROLL",

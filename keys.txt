@@ -1,0 +1,9 @@
+AIzaSyCaK7VpPOz1EUl84YBRx0qBZRQhT-f2mDw
+
+Google Certificate Fingerprint:     1E:E5:CC:F7:FE:EE:D3:2E:3B:3F:32:C5:20:A8:78:93:C1:BC:32:A0
+Google Certificate Hash (SHA-1):    1EE5CCF7FEEED32E3B3F32C520A87893C1BC32A0
+Google Certificate Hash (SHA-256):  9661C1A35B1E700F952C9E852E5AEF5F1D84ACA3A6FB7A6101735653D159A9F3
+Facebook Key Hash:                  HuXM9/7u0y47PzLFIKh4k8G8MqA=
+
+https://expo.io/accounts/juangonzalez/builds/a3849090-5333-4078-8445-38bdea09954d
+https://expo.io/artifacts/3cee8720-b2da-4641-81bc-bee6ab58561e
