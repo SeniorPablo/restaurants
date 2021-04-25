@@ -212,3 +212,71 @@ export const getRestaurantReviews = async (id) => {
     return result
 }
 
+export const getIsFavorite = async (idRestaurant) => {
+    const result = { statusResponse: true, error: null, isFavorite: false }
+    try {
+        const response = await db
+            .collection("favorites")
+            .where("idRestaurant", "==", idRestaurant)
+            .where("idUser", "==", getCurrentUser().uid)
+            .get()
+
+        result.isFavorite = response.docs.length > 0
+    } catch (error) {
+        result.error = error
+        result.statusResponse = false
+    }
+    return result
+}
+
+export const deleteFavorite = async (idRestaurant) => {
+    const result = { statusResponse: true, error: null }
+    try {
+        const response = await db
+            .collection("favorites")
+            .where("idRestaurant", "==", idRestaurant)
+            .where("idUser", "==", getCurrentUser().uid)
+            .get()
+
+        response.forEach(async (doc) => {
+            const favoriteId = doc.id
+            await db.collection("favorites").doc(favoriteId).delete()
+        })
+
+    } catch (error) {
+        result.error = error
+        result.statusResponse = false
+    }
+    return result
+}
+
+export const getFavorites = async () => {
+    const result = { statusResponse: true, error: null, favorites: [] }
+    try {
+        const response = await db
+            .collection("favorites")
+            .where("idUser", "==", getCurrentUser().uid)
+            .get()
+
+        const restaurantsId = []
+
+        response.forEach((doc) => {
+            const favorite = doc.data()
+            restaurantsId.push(favorite.idRestaurant)
+        })
+
+        await Promise.all(
+            restaurantsId.map(async (restaurantId) => {
+                const secondResponse = await getDocumentById("restaurants", restaurantId)
+                if (secondResponse.statusResponse) {
+                    result.favorites.push(secondResponse.document)
+                }
+            })
+        )
+
+    } catch (error) {
+        result.error = error
+        result.statusResponse = false
+    }
+    return result
+}
