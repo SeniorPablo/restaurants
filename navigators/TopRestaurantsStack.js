@@ -7,7 +7,7 @@ const Stack = createStackNavigator()
 export default function TopRestaurantsStack() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="top-restaurants" component={TopRestaurants} options={{ title: "Top 5" }} />
+            <Stack.Screen name="top-restaurants" component={TopRestaurants} options={{ title: "Los mejores restaurantes" }} />
         </Stack.Navigator>
     )
 }
