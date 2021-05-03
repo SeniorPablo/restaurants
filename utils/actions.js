@@ -3,6 +3,10 @@ import firebase from 'firebase'
 import { fileToBlob } from './helpers'
 import { FireSQL } from 'firesql'
 require('firebase/firestore')
+import * as Notifications from 'expo-notifications'
+import Constants from 'expo-constants'
+import { Alert } from 'react-native'
+import { Platform } from 'react-native'
 
 const db = firebase.firestore(firebaseApp)
 const fireSQL = new FireSQL(firebase.firestore(), { includeId: "id" })
@@ -302,6 +306,49 @@ export const searchRestaurant = async (criteria) => {
     const result = { statusResponse: true, error: null, restaurants: [] }
     try {
         result.restaurants = await fireSQL.query(`SELECT * FROM restaurants WHERE name LIKE '${criteria}%'`)
+    } catch (error) {
+        result.error = error
+        result.statusResponse = false
+    }
+    return result
+}
+
+export const getToken = async () => {
+    if (!Constants.isDevice) {
+        Alert.alert("Debes de utilizar un dispositivo fisico para visualizar las notificaciones.")
+        return
+    }
+
+    const { status: existingStatus } = await Notifications.getPermissionsAsync()
+    let finalStatus = existingStatus
+    if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync()
+        finalStatus = status
+    }
+
+    if (finalStatus !== "granted") {
+        Alert.alert("Debes dar los permisos para acceder a las notificaciones.")
+        return
+    }
+
+    const token = (await Notifications.getExpoPushTokenAsync()).data
+
+    if (Platform.OS == "android") {
+        Notifications.setNotificationChannelAsync("default", {
+            name: "default",
+            importance: Notifications.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: "#FF231F7C"
+        })
+    }
+
+    return token
+}
+
+export const addDocumentWithId = async (collection, data, doc) => {
+    const result = { statusResponse: true, error: null }
+    try {
+        await db.collection(collection).doc(doc).set(data)
     } catch (error) {
         result.error = error
         result.statusResponse = false
